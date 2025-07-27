@@ -1,0 +1,163 @@
+🔷 Problem Summary — 3Sum (LeetCode #15)
+You are given an array of integers nums.
+Your task is to find all unique triplets [a, b, c] such that:
+a + b + c == 0
+✅ Each triplet must be unique
+✅ You cannot use the same number more than once in a triplet
+✅ You may return the answer in any order
+________________________________________
+✨ Example:
+nums = [-1, 0, 1, 2, -1, -4]
+Output: [[-1, -1, 2], [-1, 0, 1]]
+________________________________________
+✅ Code
+from typing import List
+
+class Solution:
+  def threeSum(self, nums: List[int]) -> List[List[int]]:
+    n = len(nums)
+    if n < 3:
+      return []
+      
+    nums.sort()
+    res = []
+    
+    for i in range(n - 2):
+      if nums[i] > 0:
+        break
+      if i > 0 and nums[i] == nums[i - 1]:
+        continue
+
+      left, right = i + 1, n - 1
+      
+      while left < right:
+        total = nums[i] + nums[left] + nums[right]
+        
+        if total == 0:
+          res.append([nums[i], nums[left], nums[right]])
+          left += 1
+          right -= 1
+          while left < right and nums[left] == nums[left - 1]:
+            left += 1
+          while left < right and nums[right] == nums[right + 1]:
+            right -= 1
+            
+        elif total < 0:
+          left += 1
+        else:
+          right -= 1
+          
+    return res
+________________________________________
+🧵 Line-by-Line & Word-by-Word Breakdown
+________________________________________
+from typing import List
+•	Importing List for type hints: helps indicate what types we're working with.
+________________________________________
+class Solution:
+•	Standard LeetCode class declaration.
+•	All our logic lives inside this class.
+________________________________________
+def threeSum(self, nums: List[int]) -> List[List[int]]:
+•	threeSum: the name of the function LeetCode will call.
+•	nums: the input list of integers.
+•	-> List[List[int]]: this function returns a list of integer triplets (like [[-1, 0, 1], [-1, -1, 2]]).
+________________________________________
+n = len(nums)
+•	Store the length of the input list in n.
+________________________________________
+if n < 3: return []
+•	If there are fewer than 3 numbers, you can't make a triplet → return an empty list.
+________________________________________
+nums.sort()
+•	Sorting is essential:
+o	Helps us skip duplicates easily.
+o	Makes two-pointer strategy work correctly.
+o	Sorted input: easier to reason about.
+________________________________________
+res = []
+•	An empty list to collect our valid triplets.
+________________________________________
+for i in range(n - 2):
+•	We iterate from index 0 to n-3.
+•	Because we always need 3 elements: nums[i], nums[left], nums[right].
+________________________________________
+if nums[i] > 0: break
+•	Once nums[i] becomes positive, all numbers after it will also be positive.
+•	And positive + positive + positive ≠ 0 → no valid triplet after this → exit early.
+________________________________________
+if i > 0 and nums[i] == nums[i - 1]: continue
+•	Skip duplicate values for the first number.
+•	This avoids counting the same triplet more than once.
+________________________________________
+left, right = i + 1, n - 1
+•	After choosing nums[i], we use two pointers:
+o	left starts just after i
+o	right starts at the end of the list
+________________________________________
+while left < right:
+•	As long as the two pointers don’t cross each other, keep looking.
+________________________________________
+total = nums[i] + nums[left] + nums[right]
+•	Calculate the sum of the triplet.
+________________________________________
+if total == 0:
+•	Found a valid triplet! 🎯
+________________________________________
+res.append([nums[i], nums[left], nums[right]])
+•	Add the triplet to the result.
+________________________________________
+left += 1, right -= 1
+•	Move both pointers inward to find new pairs.
+________________________________________
+while left < right and nums[left] == nums[left - 1]: left += 1
+•	Skip duplicate values for left.
+________________________________________
+while left < right and nums[right] == nums[right + 1]: right -= 1
+•	Skip duplicate values for right.
+________________________________________
+elif total < 0: left += 1
+•	If the sum is too small, move left to a larger number.
+________________________________________
+else: right -= 1
+•	If the sum is too big, move right to a smaller number.
+________________________________________
+return res
+•	Return the final list of unique triplets.
+________________________________________
+🧪 Example Walkthrough
+nums = [-1, 0, 1, 2, -1, -4]
+Step 1: Sort it
+nums = [-4, -1, -1, 0, 1, 2]
+Step 2: Start loop
+•	i = 0: nums[i] = -4 → left = 1, right = 5
+o	Try: -4 + (-1) + 2 = -3 → too small → move left
+o	-4 + 0 + 2 = -2 → still small → move left
+o	-4 + 1 + 2 = -1 → still small → move left
+•	i = 1: nums[i] = -1 → left = 2, right = 5
+o	-1 + (-1) + 2 = 0 → ✅ found triplet
+o	Skip duplicate -1s
+o	Continue…
+•	i = 2: skip (duplicate -1)
+→ Final answer: [[-1, -1, 2], [-1, 0, 1]]
+________________________________________
+⏱️ Time & Space Complexity
+Aspect	Value
+Time Complexity	O(n²)
+Space Complexity	O(1) (excluding result list)
+•	Sorting: O(n log n)
+•	Outer loop: O(n)
+•	Inner two-pointer loop: O(n)
+→ Together: O(n²)
+________________________________________
+✅ Final Thoughts
+This solution is:
+•	Clean
+•	Efficient
+•	Beginner-friendly
+It teaches:
+•	Sorting logic
+•	Two-pointer technique
+•	How to avoid duplicates
+•	Efficient iteration
+
