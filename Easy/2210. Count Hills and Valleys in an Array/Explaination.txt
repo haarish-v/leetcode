@@ -1,0 +1,111 @@
+Absolutely! Here's the beginner-friendly explanation for your LeetCode problem “Count Hills and Valleys in an Array” written just like your Two Sum breakdown — with full structure, line-by-line, word-by-word clarity, and a walkthrough.
+________________________________________
+💡 Problem Summary
+You are given a list of integers called nums.
+Your job is to count how many hills and valleys exist in the list:
+•	A hill happens when a number is greater than both its neighbors.
+•	A valley happens when a number is less than both its neighbors.
+•	Ignore equal neighboring values — they can’t form a hill or valley.
+For example:
+nums = [2, 4, 1, 1, 6, 5] → Output should be 3.
+________________________________________
+🧑‍💻 Code
+from typing import List
+
+class Solution:
+    def countHillValley(self, nums: List[int]) -> int:
+        # Step 1: Remove consecutive duplicates
+        filtered = [nums[0]]
+        for i in range(1, len(nums)):
+            if nums[i] != nums[i - 1]:
+                filtered.append(nums[i])
+        
+        # Step 2: Count hills and valleys
+        count = 0
+        for i in range(1, len(filtered) - 1):
+            if filtered[i] > filtered[i - 1] and filtered[i] > filtered[i + 1]:
+                count += 1  # Hill
+            elif filtered[i] < filtered[i - 1] and filtered[i] < filtered[i + 1]:
+                count += 1  # Valley
+        
+        return count
+________________________________________
+🧵 Line-by-Line & Word-by-Word Breakdown
+________________________________________
+from typing import List
+•	This line allows us to use List[int] for type hinting — a way to say nums will be a list of integers.
+________________________________________
+class Solution:
+•	class: Creates a blueprint — in LeetCode, your code must be inside a class called Solution.
+•	Solution: The name of the class (don’t change it).
+________________________________________
+def countHillValley(self, nums: List[int]) -> int:
+•	def: We’re defining a function.
+•	countHillValley: The name of the function. LeetCode calls this during testing.
+•	self: Refers to the current object of the class. Needed in class methods.
+•	nums: List[int]: The input — a list of integers.
+•	-> int: This function will return a single integer.
+________________________________________
+filtered = [nums[0]]
+•	We make a new list called filtered starting with the first element of nums.
+•	Purpose: To remove consecutive duplicates.
+________________________________________
+for i in range(1, len(nums)):
+•	A loop that runs from index 1 to the end.
+•	We skip index 0 because it’s already added to filtered.
+________________________________________
+if nums[i] != nums[i - 1]:
+•	If the current number is not equal to the previous number…
+•	That means it’s not a duplicate.
+________________________________________
+filtered.append(nums[i])
+•	Add that non-duplicate number to the filtered list.
+________________________________________
+count = 0
+•	Create a variable to store the number of hills and valleys.
+________________________________________
+for i in range(1, len(filtered) - 1):
+•	Loop from the second to the second-last number.
+•	Because the first and last elements can never be hills or valleys.
+________________________________________
+if filtered[i] > filtered[i - 1] and filtered[i] > filtered[i + 1]:
+•	This checks:
+👉 Is the number greater than both its neighbors?
+👉 If yes → it's a hill.
+________________________________________
+count += 1
+•	Increase the hill/valley count by 1.
+________________________________________
+elif filtered[i] < filtered[i - 1] and filtered[i] < filtered[i + 1]:
+•	If the number is less than both its neighbors → it's a valley.
+________________________________________
+return count
+•	After finishing the loop, return the total number of hills and valleys.
+________________________________________
+🧪 Example Walkthrough
+nums = [2, 4, 1, 1, 6, 5]
+Step 1: Remove consecutive duplicates
+filtered = [2, 4, 1, 6, 5]
+Step 2: Loop through and check:
+•	i = 1 → 4 > 2 and 4 > 1 → hill → count = 1
+•	i = 2 → 1 < 4 and 1 < 6 → valley → count = 2
+•	i = 3 → 6 > 1 and 6 > 5 → hill → count = 3
+→ Final Answer: 3
+________________________________________
+💭 Why This Approach?
+Brute Force (❌):
+•	Compare all combinations — slow and wasteful (O(n²)).
+Current Method (✅):
+•	1st pass: Filter out unnecessary duplicates (O(n))
+•	2nd pass: Scan for hills and valleys (O(n))
+🟢 Time Complexity: O(n)
+🟢 Space Complexity: O(n) (because of filtered)
+________________________________________
+✅ Final Thoughts
+This is a perfect example of:
+•	Filtering noise before processing.
+•	Understanding local comparisons.
+•	Reducing time with smart preprocessing.
+You're not only solving the problem — you're solving it well.
+Let me know if you'd like a visual explanation or animation-style notes to remember this forever!
+
